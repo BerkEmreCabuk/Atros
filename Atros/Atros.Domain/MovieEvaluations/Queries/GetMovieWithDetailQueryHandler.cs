@@ -1,4 +1,5 @@
 ﻿using Atros.Common.Enums;
+using Atros.Common.Exceptions;
 using Atros.Data.Entities;
 using Atros.Data.Repository;
 using Atros.Domain.MovieEvaluations.Models;
@@ -32,7 +33,7 @@ namespace Atros.Domain.MovieEvaluations.Queries
         {
             var movie = await _movieRepository.FirstOrDefaultAsync(x => x.Status == Status.Active && x.Id == request.MovieId);
             if (movie == null)
-                throw new Exception("film bulunamadı.");
+                throw new NotFoundException("Film bulunamadı.");
             var movieDetail = _mapper.Map<Movie, MovieDetailModel>(movie);
 
             movieDetail.AverageScore = await _movieEvaluationRepository
@@ -42,10 +43,10 @@ namespace Atros.Domain.MovieEvaluations.Queries
                     x.MovieId == request.MovieId &&
                     x.Status == Status.Active)
                 .AverageAsync(x => x.Score);
-            var movieEvaluation= await _movieEvaluationRepository.FirstOrDefaultAsync(x =>
-            x.Status == Status.Active &&
-            x.MovieId == request.MovieId &&
-            x.UserId == request.UserId);
+            var movieEvaluation = await _movieEvaluationRepository.FirstOrDefaultAsync(x =>
+             x.Status == Status.Active &&
+             x.MovieId == request.MovieId &&
+             x.UserId == request.UserId);
             movieDetail.UserScore = movieEvaluation?.Score;
             movieDetail.UserNote = movieEvaluation?.Note;
 

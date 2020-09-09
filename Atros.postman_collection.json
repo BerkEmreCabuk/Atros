@@ -1,0 +1,217 @@
+{
+	"info": {
+		"_postman_id": "cc7ed1e2-3a3b-494d-b0ca-f2186286e2eb",
+		"name": "Atros",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authorization",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"emre\",\n\t\"surname\":\"çabuk\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/user/gettoken?username=berkemre&password=123456",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"gettoken"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "berkemre"
+						},
+						{
+							"key": "password",
+							"value": "123456"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Advice",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTk3NDA1NTksImlzcyI6ImF0cm9zX2lzc3VlciIsImF1ZCI6IkF0cm9zQVBJIn0.jV6VNmP-vBVobgf8gaIVJadja-2Bi7KjYvlrY_8eRjk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "access-token",
+						"value": "{token}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5000/api/Movie/advice?movieId=1&emailAddress=berkemrecabuk@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"Movie",
+						"advice"
+					],
+					"query": [
+						{
+							"key": "movieId",
+							"value": "1"
+						},
+						{
+							"key": "emailAddress",
+							"value": "berkemrecabuk@gmail.com"
+						}
+					]
+				},
+				"description": "Send email"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Comment With Score",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTk3NDA1NTksImlzcyI6ImF0cm9zX2lzc3VlciIsImF1ZCI6IkF0cm9zQVBJIn0.jV6VNmP-vBVobgf8gaIVJadja-2Bi7KjYvlrY_8eRjk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"movieId\":1,\r\n    \"score\":2,\r\n    \"note\":\"beğenmedim\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/movie/commentwithscore",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"movie",
+						"commentwithscore"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Detail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/Movie/getdetail?movieId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"Movie",
+						"getdetail"
+					],
+					"query": [
+						{
+							"key": "movieId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Paging",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTk3NDA4MTEsImlzcyI6ImF0cm9zX2lzc3VlciIsImF1ZCI6IkF0cm9zQVBJIn0.v6sUPhDHU1ygadO4-GyrSXHYXJGB5dOzAd_aWR-3E8c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/Movie/paging?pageSize=100&pageIndex=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"Movie",
+						"paging"
+					],
+					"query": [
+						{
+							"key": "pageSize",
+							"value": "100"
+						},
+						{
+							"key": "pageIndex",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

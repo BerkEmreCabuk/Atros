@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Atros.Common.Exceptions;
 
 namespace Atros.Common.Models
 {
@@ -14,15 +15,15 @@ namespace Atros.Common.Models
         public void CheckModel()
         {
             if (string.IsNullOrEmpty(this.ApiKey))
-                throw new Exception("Api Key boş olamaz.");
+                throw new UnprocessableException("Api Key boş olamaz.");
             if (string.IsNullOrEmpty(this.Url))
-                throw new Exception("Url boş olamaz.");
+                throw new UnprocessableException("Url boş olamaz.");
             if (string.IsNullOrEmpty(this.Language))
-                throw new Exception("Language boş olamaz.");
+                throw new UnprocessableException("Language boş olamaz.");
             if (this.MaxPageSize <= 0)
-                throw new Exception("MaxPageSize 0(sıfır)'dan büyük olmalıdır.");
+                throw new UnprocessableException("MaxPageSize 0(sıfır)'dan büyük olmalıdır.");
             if (this.MaxMovieCount <= 0)
-                throw new Exception("MaxMovieCount 0(sıfır)'dan büyük olmalıdır.");
+                throw new UnprocessableException("MaxMovieCount 0(sıfır)'dan büyük olmalıdır.");
         }
     }
 }

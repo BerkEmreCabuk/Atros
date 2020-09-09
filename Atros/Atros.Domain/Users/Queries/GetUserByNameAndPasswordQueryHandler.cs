@@ -1,4 +1,5 @@
 ﻿using Atros.Common.Enums;
+using Atros.Common.Exceptions;
 using Atros.Data.Entities;
 using Atros.Data.Repository;
 using Atros.Domain.Users.Models;
@@ -25,7 +26,7 @@ namespace Atros.Domain.Users.Queries
         {
             var user = await _repository.FirstOrDefaultAsync(x => x.Password == request.Password && x.UserName == request.Username && x.Status == Status.Active);
             if (user == null)
-                throw new Exception($"{request.Username} kullanıcısı bulunamadı.");
+                throw new NotFoundException($"{request.Username} kullanıcısı bulunamadı.");
             return _mapper.Map<User, UserModel>(user);
         }
     }

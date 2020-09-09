@@ -28,22 +28,22 @@ namespace Atros.Domain.MovieEvaluations.Commands
         {
             var movieEvaluation = await _repository.FirstOrDefaultAsync(x =>
               x.Status == Status.Active &&
-              x.MovieId == request.MovieEvaluationModel.MovieId &&
-              x.UserId == request.MovieEvaluationModel.UserId);
+              x.MovieId == request.MovieId &&
+              x.UserId == request.UserId);
             if(movieEvaluation!=null)
             {
-                movieEvaluation.Score = request.MovieEvaluationModel.Score;
-                movieEvaluation.Note = request.MovieEvaluationModel.Note;
+                movieEvaluation.Score = request.Score;
+                movieEvaluation.Note = request.Note;
                 _repository.Modify(movieEvaluation);
             }
             else
             {
-                movieEvaluation = _mapper.Map<MovieEvaluationModel, MovieEvaluation>(request.MovieEvaluationModel);
+                movieEvaluation = _mapper.Map<MovieEvaluationModel, MovieEvaluation>(request);
                 _repository.Add(movieEvaluation);
             }
             
             await _repository.SaveChangesAsync();
-            return request.MovieEvaluationModel;
+            return request;
         }
     }
 }

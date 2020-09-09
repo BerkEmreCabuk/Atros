@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -38,6 +39,8 @@ namespace Atros.Domain.Movies.Queries
                 var response = await _mainHttpService.HttpRequest(url, HttpMethod.Get);
                 if (!response.IsSuccessStatusCode)
                 {
+                    if (response.StatusCode == HttpStatusCode.RequestTimeout)
+                        throw new TimeoutException();
                     throw new Exception($"{_options.Value.Url} servis bağlantı hatası, Hata:  {await response.Content.ReadAsStringAsync()} Status Kodu: {response.StatusCode}");
                 }
 

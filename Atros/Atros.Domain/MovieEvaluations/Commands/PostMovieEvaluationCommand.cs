@@ -6,8 +6,7 @@ using System.Text;
 
 namespace Atros.Domain.MovieEvaluations.Commands
 {
-    public class PostMovieEvaluationCommand : IRequest<MovieEvaluationModel>
+    public class PostMovieEvaluationCommand : MovieEvaluationModel,IRequest<MovieEvaluationModel>
     {
-        public MovieEvaluationModel MovieEvaluationModel { get; set; }
     }
 }

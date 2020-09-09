@@ -4,12 +4,15 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Atros.Api.Infrastructure;
 using Atros.Common;
 using Atros.Common.Models;
 using Atros.Domain;
 using Atros.Domain.Infrastructure.Pipeline;
+using Atros.Domain.MovieEvaluations.Validators;
 using Atros.Domain.Movies.Queries;
 using Atros.HostedService;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -36,7 +39,8 @@ namespace Atros.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(validationConfig => validationConfig.RegisterValidatorsFromAssemblyContaining<PostMovieEvaluationValidator>());
             services.AddMemoryCache();
             services.AddCustomSettings(Configuration);
             services.AddCustomAuthentication(Configuration);
@@ -63,6 +67,8 @@ namespace Atros.Api
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseErrorHandlingMiddleware();
 
             app.UseEndpoints(endpoints =>
             {
@@ -111,6 +117,11 @@ namespace Atros.Api
                 });
 
             return services;
+        }
+
+        public static IApplicationBuilder UseErrorHandlingMiddleware(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<ErrorHandlingMiddleware>();
         }
     }
 }

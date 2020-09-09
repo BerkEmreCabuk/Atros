@@ -41,7 +41,7 @@ namespace Atros.HostedService.Jobs
                         _logger.LogWarning("Kaynak siteden herhangi bir film alınamadı.");
                         return;
                     }
-                    await mediator.Send(new BulkSynchronizeCommand() { MovieModels=movies});
+                    await mediator.Send(new BulkSynchronizeCommand { MovieModels= movies } );
                 }
             }
             catch (Exception ex)

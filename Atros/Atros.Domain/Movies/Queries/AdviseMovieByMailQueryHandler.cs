@@ -1,4 +1,5 @@
 ﻿using Atros.Common.Enums;
+using Atros.Common.Exceptions;
 using Atros.Common.Services.Interfaces;
 using Atros.Data.Entities;
 using Atros.Data.Repository;
@@ -24,13 +25,13 @@ namespace Atros.Domain.Movies.Queries
             _repository = repository;
             _mailService = mailService;
         }
-        public async  Task<string> Handle(AdviseMovieByMailQuery request, CancellationToken cancellationToken)
+        public async Task<string> Handle(AdviseMovieByMailQuery request, CancellationToken cancellationToken)
         {
-            var movie=await _repository.FirstOrDefaultAsync(x => x.Status == Status.Active && x.Id == request.MovieId);
+            var movie = await _repository.FirstOrDefaultAsync(x => x.Status == Status.Active && x.Id == request.MovieId);
             if (movie == null)
-                throw new Exception("İlgili film bulunamadı");
+                throw new NotFoundException("İlgili film bulunamadı");
             string subject = $"{movie.Title} filmini tavsiye ederim.";
-            await _mailService.SendMail(request.EmailAddress,subject);
+            await _mailService.SendMail(request.EmailAddress, subject);
             return $"{request.EmailAddress} adresine tavsiye maili gönderilmiştir.";
         }
     }

@@ -13,6 +13,7 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using Atros.Domain.Users.Models;
 using Atros.Domain.MovieEvaluations.Queries;
+using Atros.Common.Exceptions;
 
 namespace Atros.Api.Controllers
 {
@@ -41,11 +42,11 @@ namespace Atros.Api.Controllers
         public async Task<ActionResult<MoviePagedModel>> GetDetail(int movieId)
         {
             if (!Request.Headers.TryGetValue("Authorization", out var key))
-                throw new Exception("Authorization bilgisi bulunamamaktadır.");
+                throw new UnauthorizedException();
 
             var keyString = key.ToString().Replace("Bearer ", "");
             if (!_memory.TryGetValue(keyString, out UserModel user))
-                throw new Exception("Kullanıcı bilgisi bulunamamaktadır.");
+                throw new NotFoundException("Kullanıcı bilgisi bulunamamaktadır.");
 
             return Ok(await Mediator.Send(new GetMovieWithDetailQuery { MovieId = movieId, UserId = user.Id }));
         }
@@ -57,17 +58,17 @@ namespace Atros.Api.Controllers
         }
 
         [HttpPost("commentwithscore")]
-        public async Task<IActionResult> CommentWithScore([FromBody]MovieEvaluationModel movieEvaluationModel)
+        public async Task<IActionResult> CommentWithScore([FromBody] PostMovieEvaluationCommand command)
         {
             if (!Request.Headers.TryGetValue("Authorization", out var key))
-                throw new Exception("Authorization bilgisi bulunamamaktadır.");
+                throw new UnauthorizedException();
 
             var keyString = key.ToString().Replace("Bearer ", "");
             if (!_memory.TryGetValue(keyString, out UserModel user))
-                throw new Exception("Kullanıcı bilgisi bulunamamaktadır.");
-            movieEvaluationModel.UserId = user.Id;
+                throw new NotFoundException("Kullanıcı bilgisi bulunamamaktadır.");
+            command.UserId = user.Id;
 
-            return Created("", await Mediator.Send(new PostMovieEvaluationCommand { MovieEvaluationModel = movieEvaluationModel }));
+            return Created("", await Mediator.Send(command));
         }
     }
 }

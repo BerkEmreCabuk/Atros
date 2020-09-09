@@ -7,6 +7,8 @@ namespace Atros.Domain.Movies.Queries
 {
     public class AdviseMovieByMailQuery : IRequest<string>
     {
+        public AdviseMovieByMailQuery()
+        { }
         public string EmailAddress { get; set; }
         public long MovieId { get; set; }
     }
