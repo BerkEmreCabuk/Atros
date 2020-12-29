@@ -10,6 +10,7 @@
     Business işlerinin gerçekleştiği katmandır. burada işler domain bazlı bölünip ucundan da olsa DDD uygulanmıştır
  ## Atros.HostedService
     Jobların çalıştığı projedir
+    
 # Migration
 add-migration
 update-database
